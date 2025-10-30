@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Corridor UI Shrine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      touch-action: none;
+      font-family: sans-serif;
+      background: #111;
+    }
+
+    .bar {
+      position: absolute;
+      width: 100%;
+      height: 60px;
+      background: #222;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+
+    #top-apps { top: 0; }
+    #top-menu { top: 60px; }
+    #bottom-bar { bottom: 0; }
+
+    .swipe-feedback {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #888;
+      font-size: 18px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="top-apps" class="bar">🔍 Apps Bar</div>
+  <div id="top-menu" class="bar">⚙️ Menu Panel</div>
+  <div id="bottom-bar" class="bar">📺 Viewer Footer</div>
+  <div id="feedback" class="swipe-feedback">Nothing to reveal…</div>
+
+  <script>
+    let startY = null;
+    const feedback = document.getElementById('feedback');
+
+    document.addEventListener('touchstart', e => {
+      startY = e.touches[0].clientY;
+    });
+
+    document.addEventListener('touchend', e => {
+      if (startY !== null) {
+        const endY = e.changedTouches[0].clientY;
+        const deltaY = endY - startY;
+
+        if (Math.abs(deltaY) > 30) {
+          feedback.style.opacity = 1;
+          setTimeout(() => feedback.style.opacity = 0, 1000);
+        }
+
+        startY = null;
+      }
+    });
+  </script>
+
+</body>
+</html>
+
